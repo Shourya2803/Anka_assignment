@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useTransition, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Folder, Trash2, ChevronDown, ChevronRight, AlertCircle, Loader2 } from "lucide-react"
 import { createCategoryAction, deleteCategoryAction } from "../actions/category.actions"
 import { CategoryTreeItem } from "../services/category.service"
@@ -16,6 +17,7 @@ export default function CategoryManager({
   initialTree,
   flatCategories,
 }: CategoryManagerProps) {
+  const router = useRouter()
   const [name, setName] = useState("")
   const [parentId, setParentId] = useState("")
   const [computedLevel, setComputedLevel] = useState(1)
@@ -56,6 +58,7 @@ export default function CategoryManager({
         setName("")
         setParentId("")
         toast.success("Category created successfully!")
+        router.refresh()
       } else {
         setError(res.error || "Failed to create category")
         toast.error(res.error || "Failed to create category")
@@ -80,6 +83,7 @@ export default function CategoryManager({
 
     if (res.success) {
       toast.success("Category deleted successfully!")
+      router.refresh()
     } else {
       setError(res.error || "Failed to delete category")
       toast.error(res.error || "Failed to delete category")

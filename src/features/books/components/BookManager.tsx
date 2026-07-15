@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useTransition, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import {
   Plus,
   Search,
@@ -52,6 +53,7 @@ export default function BookManager({
   currentPage: serverCurrentPage,
   categories = [],
 }: BookManagerProps) {
+  const router = useRouter()
   const [books, setBooks] = useState<Book[]>(initialBooks)
   const [totalBooks, setTotalBooks] = useState(serverTotalBooks)
   const [totalPages, setTotalPages] = useState(serverTotalPages)
@@ -70,6 +72,14 @@ export default function BookManager({
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
 
+  // Synchronize state when server side props update
+  useEffect(() => {
+    setBooks(initialBooks)
+    setTotalBooks(serverTotalBooks)
+    setTotalPages(serverTotalPages)
+    setCurrentPage(serverCurrentPage)
+  }, [initialBooks, serverTotalBooks, serverTotalPages, serverCurrentPage])
+
   const fetchData = async (page: number, searchVal: string, catVal: string) => {
     const query = new URLSearchParams()
     query.set("page", page.toString())
@@ -77,8 +87,7 @@ export default function BookManager({
     if (catVal) query.set("categoryId", catVal)
 
     const url = `${window.location.pathname}?${query.toString()}`
-    window.history.pushState(null, "", url)
-    window.location.href = url
+    router.push(url)
   }
 
   const handlePageChange = (page: number) => {
@@ -138,10 +147,7 @@ export default function BookManager({
         setIsFormOpen(false)
         setEditingBook(null)
         toast.success(editingBook ? "Book updated successfully!" : "Book created successfully!")
-        
-        setTimeout(() => {
-          window.location.reload()
-        }, 800)
+        router.refresh()
       } else {
         toast.error(res.error || "Failed to save book")
       }
@@ -164,9 +170,7 @@ export default function BookManager({
 
     if (res.success) {
       toast.success("Book deleted successfully!")
-      setTimeout(() => {
-        window.location.reload()
-      }, 800)
+      router.refresh()
     } else {
       toast.error(res.error || "Failed to delete book")
     }
