@@ -31,14 +31,14 @@ export default function FavoritesReportChart({ totalCount, chartData }: Favorite
 
   if (!isMounted) {
     return (
-      <div className="w-full max-w-3xl bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm h-[400px] flex items-center justify-center text-slate-400 text-sm">
+      <div className="w-full bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm h-[400px] flex items-center justify-center text-slate-400 text-sm">
         Loading report visualizer...
       </div>
     )
   }
 
   return (
-    <div className="w-full max-w-3xl bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm flex flex-col gap-6">
+    <div className="w-full bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm flex flex-col gap-6">
       {/* Report Summary Card Header */}
       <div className="flex justify-between items-start">
         <div className="flex flex-col gap-2">

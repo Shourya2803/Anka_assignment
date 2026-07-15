@@ -88,12 +88,10 @@ export default async function AdminReportsPage() {
       </div>
 
       {/* Dynamic Favorites Line/Area Chart Card */}
-      <div className="flex justify-start">
-        <FavoritesReportChart
-          totalCount={lastMonthFavoritesCount}
-          chartData={chartData}
-        />
-      </div>
+      <FavoritesReportChart
+        totalCount={lastMonthFavoritesCount}
+        chartData={chartData}
+      />
 
       {/* Activity Table Card (Audit Logs) */}
       <div className="p-4 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
