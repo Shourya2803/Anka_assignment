@@ -12,16 +12,48 @@ interface StatCardProps {
   title: string
   value: number
   icon: React.ReactNode
+  variant: "blue" | "emerald" | "violet" | "rose"
 }
 
-function StatCard({ title, value, icon }: StatCardProps) {
+function StatCard({ title, value, icon, variant }: StatCardProps) {
+  const variantStyles = {
+    blue: {
+      borderHover: "hover:border-blue-200",
+      shadowHover: "hover:shadow-blue-500/5",
+      iconColor: "text-blue-600",
+      iconBg: "bg-blue-50/60 border-blue-100",
+      iconHoverBg: "group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600",
+    },
+    emerald: {
+      borderHover: "hover:border-emerald-200",
+      shadowHover: "hover:shadow-emerald-500/5",
+      iconColor: "text-emerald-600",
+      iconBg: "bg-emerald-50/60 border-emerald-100",
+      iconHoverBg: "group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600",
+    },
+    violet: {
+      borderHover: "hover:border-violet-200",
+      shadowHover: "hover:shadow-violet-500/5",
+      iconColor: "text-violet-600",
+      iconBg: "bg-violet-50/60 border-violet-100",
+      iconHoverBg: "group-hover:bg-violet-600 group-hover:text-white group-hover:border-violet-600",
+    },
+    rose: {
+      borderHover: "hover:border-rose-200",
+      shadowHover: "hover:shadow-rose-500/5",
+      iconColor: "text-rose-600",
+      iconBg: "bg-rose-50/60 border-rose-100",
+      iconHoverBg: "group-hover:bg-rose-600 group-hover:text-white group-hover:border-rose-600",
+    },
+  }[variant]
+
   return (
-    <div className="p-6 rounded-2xl bg-white border border-slate-200 flex items-center justify-between shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-350">
+    <div className={`group p-6 rounded-2xl bg-white border border-slate-200 flex items-center justify-between shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ${variantStyles.borderHover} ${variantStyles.shadowHover}`}>
       <div className="flex flex-col gap-1">
         <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{title}</span>
         <span className="text-3xl font-extrabold text-slate-900 mt-1">{value}</span>
       </div>
-      <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-600">
+      <div className={`p-3.5 rounded-xl border text-slate-600 transition-all duration-300 ${variantStyles.iconColor} ${variantStyles.iconBg} ${variantStyles.iconHoverBg}`}>
         {icon}
       </div>
     </div>
@@ -49,21 +81,25 @@ export default async function AdminDashboardPage() {
           title="Total Books"
           value={stats.totalBooks}
           icon={<BookOpen className="w-5 h-5" />}
+          variant="blue"
         />
         <StatCard
           title="Categories"
           value={stats.totalCategories}
           icon={<FolderTree className="w-5 h-5" />}
+          variant="emerald"
         />
         <StatCard
           title="Registered Readers"
           value={stats.totalUsers}
           icon={<Users className="w-5 h-5" />}
+          variant="violet"
         />
         <StatCard
           title="Saved Favorites"
           value={stats.totalFavorites}
           icon={<Heart className="w-5 h-5" />}
+          variant="rose"
         />
       </div>
 
