@@ -136,11 +136,11 @@ export default function CategoryManager({
             </span>
           </div>
 
-          {/* Delete Action (only visible on hover to match mockup cleanliness) */}
+          {/* Delete Action (visible on hover on desktop, always visible with low opacity on touch devices) */}
           <button
             onClick={() => handleOpenDeleteConfirm(item.id)}
             disabled={isDeleting || isPending}
-            className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-600 disabled:opacity-50 transition-all cursor-pointer"
+            className="opacity-40 hover:opacity-100 lg:opacity-0 lg:group-hover:opacity-100 p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-600 disabled:opacity-50 transition-all cursor-pointer"
             title="Delete Category"
           >
             {isDeleting ? (
