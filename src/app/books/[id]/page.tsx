@@ -69,10 +69,10 @@ export default async function BookDetailPage({ params }: PageProps) {
         </div>
 
         {/* Detailed Book Content */}
-        <div className="w-full bg-white border border-slate-200 rounded-3xl p-8 sm:p-10 md:p-12 shadow-sm flex flex-col md:flex-row gap-8 md:gap-12 items-start">
-
+        <div className="w-full bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-8 md:p-12 shadow-sm flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+          
           {/* Left Column: Cover and Favorite Button */}
-          <div className="w-full md:w-64 lg:w-72 flex-shrink-0 flex flex-col gap-6">
+          <div className="w-full max-w-[240px] md:max-w-none mx-auto md:w-64 lg:w-72 flex-shrink-0 flex flex-col gap-6">
             <div className="aspect-[2/3] w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 flex items-center justify-center shrink-0 shadow-md hover:shadow-lg transition-shadow duration-300">
               <img src={book.coverImage} alt={book.title} className="w-full h-full object-cover" />
             </div>

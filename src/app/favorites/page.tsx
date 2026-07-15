@@ -42,22 +42,22 @@ export default async function FavoritesPage() {
       <PublicNavbar />
 
       {/* Main Container */}
-      <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-12 flex flex-col gap-6">
+      <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-12 flex flex-col gap-6">
 
         {/* Outer Frame Card */}
-        <div className="w-full bg-white border border-slate-200 rounded-3xl p-8 shadow-sm flex flex-col gap-6">
+        <div className="w-full bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-sm flex flex-col gap-6">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
               My Favorite Books
             </h1>
           </div>
 
           {/* Favorites List Container */}
           {favorites.length === 0 ? (
-            <div className="text-center py-20 border border-dashed border-slate-200 rounded-2xl bg-white shadow-sm">
-              <Heart className="w-12 h-12 text-slate-200 mx-auto mb-3" />
-              <p className="text-slate-600 font-semibold">Your favorites list is empty.</p>
-              <p className="text-slate-400 text-xs mt-1">
+            <div className="text-center py-16 sm:py-20 border border-dashed border-slate-200 rounded-2xl bg-white shadow-sm">
+              <Heart className="w-10 h-10 sm:w-12 sm:h-12 text-slate-200 mx-auto mb-3" />
+              <p className="text-slate-600 font-semibold text-sm sm:text-base">Your favorites list is empty.</p>
+              <p className="text-slate-400 text-[10px] sm:text-xs mt-1">
                 Explore the{" "}
                 <Link href="/books" className="text-blue-600 hover:underline font-bold">
                   books catalog
@@ -74,10 +74,10 @@ export default async function FavoritesPage() {
                 return (
                   <div
                     key={book.id}
-                    className="group flex items-center gap-6 p-6 hover:bg-slate-50/50 transition-colors"
+                    className="group flex items-center gap-4 sm:gap-6 p-4 sm:p-6 hover:bg-slate-50/50 transition-colors"
                   >
                     {/* Small Cover Art on Left */}
-                    <div className="w-[72px] h-[108px] rounded-[6px] overflow-hidden border border-slate-200 bg-slate-100 flex-shrink-0 shadow-md hover:shadow-lg transition-all duration-300">
+                    <div className="w-[60px] h-[90px] sm:w-[72px] sm:h-[108px] rounded-[6px] overflow-hidden border border-slate-200 bg-slate-100 flex-shrink-0 shadow-md hover:shadow-lg transition-all duration-300">
                       <Link href={`/books/${book.id}`}>
                         <img
                           src={book.coverImage}
@@ -88,16 +88,16 @@ export default async function FavoritesPage() {
                     </div>
 
                     {/* Middle Column: Metadata */}
-                    <div className="flex-1 min-w-0 flex flex-col gap-1">
+                    <div className="flex-1 min-w-0 flex flex-col gap-0.5 sm:gap-1">
                       <Link href={`/books/${book.id}`}>
-                        <h2 className="text-base sm:text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors truncate">
+                        <h2 className="text-sm sm:text-base md:text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors truncate">
                           {book.title}
                         </h2>
                       </Link>
-                      <p className="text-sm text-slate-500 truncate">
+                      <p className="text-xs sm:text-sm text-slate-500 truncate">
                         {book.author}
                       </p>
-                      <div className="text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors mt-2">
+                      <div className="text-[10px] sm:text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors mt-1 sm:mt-2">
                         <Link href={`/books?categoryId=${book.categoryId}`}>
                           {categoryPath}
                         </Link>
