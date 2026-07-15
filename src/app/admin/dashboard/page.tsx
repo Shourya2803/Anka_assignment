@@ -71,7 +71,7 @@ export default async function AdminDashboardPage() {
           System Overview
         </h1>
         <p className="text-sm text-slate-500 font-medium">
-          Monitor your digital library's growth, engagement, and catalogs.
+          Monitor your digital library&apos;s growth, engagement, and catalogs.
         </p>
       </div>
 
