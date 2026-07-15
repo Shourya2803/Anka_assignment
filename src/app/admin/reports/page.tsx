@@ -96,10 +96,10 @@ export default async function AdminReportsPage() {
       </div>
 
       {/* Activity Table Card (Audit Logs) */}
-      <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
+      <div className="p-4 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <ClipboardList className="w-5 h-5 text-slate-550" />
+            <ClipboardList className="w-5 h-5 text-slate-500" />
             Audit Trail Logs (Recent 100 Actions)
           </h2>
           <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-50 text-slate-500 border border-slate-200">
@@ -110,7 +110,7 @@ export default async function AdminReportsPage() {
         {logs.length === 0 ? (
           <div className="text-center py-16 border border-dashed border-slate-200 rounded-xl bg-slate-50">
             <ShieldAlert className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-            <p className="text-slate-650 font-semibold">No audit logs found.</p>
+            <p className="text-slate-600 font-semibold">No audit logs found.</p>
             <p className="text-slate-400 text-xs mt-1">Actions performed by admins will appear here automatically.</p>
           </div>
         ) : (
@@ -127,8 +127,8 @@ export default async function AdminReportsPage() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {logs.map((log) => (
-                  <tr key={log.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="py-4 pl-2 text-xs text-slate-550 font-semibold whitespace-nowrap">
+                  <tr key={log.id} className="group hover:bg-slate-50/70 transition-colors duration-200">
+                    <td className="py-4 pl-2 text-xs text-slate-500 font-semibold whitespace-nowrap">
                       <span className="flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5 text-slate-400" />
                         {new Date(log.createdAt).toLocaleString()}
@@ -140,7 +140,7 @@ export default async function AdminReportsPage() {
                           <User className="w-3.5 h-3.5 text-slate-400" />
                         </div>
                         <div>
-                          <div className="font-bold text-slate-800 text-xs">
+                          <div className="font-bold text-slate-800 text-xs group-hover:text-blue-600 transition-colors duration-200">
                             {log.admin.email.toLowerCase().replace(/\+clerk_test/g, "").trim() === (process.env.ADMIN_EMAIL || "").toLowerCase().trim()
                               ? "Admin"
                               : (log.admin.name || "User")}

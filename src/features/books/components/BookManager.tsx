@@ -245,7 +245,7 @@ export default function BookManager({
       </div>
 
       {/* Main Books White Card */}
-      <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col gap-6">
+      <div className="p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col gap-6">
         <h2 className="text-xl font-bold text-slate-800">
           All Books
         </h2>
@@ -253,7 +253,7 @@ export default function BookManager({
         {books.length === 0 ? (
           <div className="text-center py-20 border border-dashed border-slate-200 rounded-2xl bg-slate-50 flex flex-col items-center justify-center">
             <BookOpen className="w-10 h-10 text-slate-300 mb-2" />
-            <p className="text-slate-550 font-semibold">No books matching your criteria.</p>
+            <p className="text-slate-500 font-semibold">No books matching your criteria.</p>
             <p className="text-slate-400 text-xs mt-1">Try resetting the search query or category filter.</p>
           </div>
         ) : (
@@ -263,19 +263,19 @@ export default function BookManager({
               return (
                 <div
                   key={book.id}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between p-5 bg-slate-50/55 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-all shadow-sm w-full gap-4"
+                  className="group flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 bg-slate-50/55 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-all shadow-sm w-full gap-4"
                 >
                   {/* Left block: Cover, main titles, and description */}
                   <div className="flex items-center gap-5 flex-1 min-w-0">
-                    <div className="w-14 h-20 rounded-lg overflow-hidden border border-slate-200 bg-white shrink-0 shadow-sm">
+                    <div className="w-14 h-20 rounded-lg overflow-hidden border border-slate-200 bg-white shrink-0 shadow-sm transition-all duration-300">
                       <img
                         src={book.coverImage}
                         alt={book.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                       />
                     </div>
                     <div className="flex flex-col min-w-0 flex-1">
-                      <h4 className="font-bold text-slate-800 text-base leading-snug truncate" title={book.title}>
+                      <h4 className="font-bold text-slate-800 text-base leading-snug truncate transition-colors duration-200 group-hover:text-blue-600" title={book.title}>
                         {book.title}
                       </h4>
                       <div className="flex items-center gap-2 mt-0.5">
@@ -312,7 +312,7 @@ export default function BookManager({
                     <button
                       onClick={() => handleOpenDeleteConfirm(book.id)}
                       disabled={isPending || isDeleting}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:text-red-650 hover:border-red-200 transition shadow-2xs cursor-pointer"
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:text-red-600 hover:border-red-200 transition shadow-2xs cursor-pointer"
                       title="Delete Book"
                     >
                       {isDeleting ? (

@@ -124,10 +124,10 @@ export default function CategoryManager({
             )}
 
             {/* Folder Icon */}
-            <Folder className="w-4 h-4 text-slate-400 shrink-0 fill-slate-100" />
+            <Folder className="w-4 h-4 text-slate-400 shrink-0 fill-slate-100 transition-transform duration-200 group-hover:scale-110" />
             
             {/* Category Name */}
-            <span className="text-sm font-semibold text-slate-700 truncate">
+            <span className="text-sm font-semibold text-slate-700 truncate transition-colors duration-200 group-hover:text-blue-600">
               {item.name}
             </span>
           </div>
@@ -136,7 +136,7 @@ export default function CategoryManager({
           <button
             onClick={() => handleOpenDeleteConfirm(item.id)}
             disabled={isDeleting || isPending}
-            className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-650 disabled:opacity-50 transition-all cursor-pointer"
+            className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-600 disabled:opacity-50 transition-all cursor-pointer"
             title="Delete Category"
           >
             {isDeleting ? (
@@ -158,11 +158,11 @@ export default function CategoryManager({
   }
 
   return (
-    <div className="w-full bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+    <div className="w-full bg-white border border-slate-200 rounded-2xl sm:rounded-3xl shadow-sm overflow-hidden">
       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200 min-h-[520px]">
         
         {/* Left Column: Categories List */}
-        <div className="p-8 flex flex-col gap-6">
+        <div className="p-4 sm:p-6 md:p-8 flex flex-col gap-6">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold text-slate-800">
               Categories
@@ -200,7 +200,7 @@ export default function CategoryManager({
         </div>
 
         {/* Right Column: Add Category Form */}
-        <div className="p-8 bg-slate-50/30 flex flex-col gap-6">
+        <div className="p-4 sm:p-6 md:p-8 bg-slate-50/30 flex flex-col gap-6">
           <h2 className="text-lg font-bold text-slate-800">
             Add Category
           </h2>

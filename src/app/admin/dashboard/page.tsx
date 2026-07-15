@@ -16,12 +16,12 @@ interface StatCardProps {
 
 function StatCard({ title, value, icon }: StatCardProps) {
   return (
-    <div className="p-6 rounded-2xl bg-white border border-slate-200 flex items-center justify-between shadow-sm hover:shadow-md transition-all">
+    <div className="p-6 rounded-2xl bg-white border border-slate-200 flex items-center justify-between shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-350">
       <div className="flex flex-col gap-1">
         <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{title}</span>
         <span className="text-3xl font-extrabold text-slate-900 mt-1">{value}</span>
       </div>
-      <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-650">
+      <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-600">
         {icon}
       </div>
     </div>
@@ -76,8 +76,8 @@ export default async function AdminDashboardPage() {
       {/* Lists Row (Top Favorites vs Recently Added) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top 5 Most Popular Books */}
-        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
-          <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-6 flex items-center gap-2">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col">
+          <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4 flex items-center gap-2">
             <Star className="w-4 h-4 text-slate-500" />
             Top 5 Popular Books
           </h3>
@@ -88,11 +88,11 @@ export default async function AdminDashboardPage() {
           ) : (
             <div className="flex flex-col divide-y divide-slate-100">
               {stats.topBooks.map((book, idx) => (
-                <div key={book.id} className="py-3 flex items-center justify-between first:pt-0 last:pb-0">
+                <div key={book.id} className="group py-3 flex items-center justify-between px-2 -mx-2 hover:bg-slate-50/60 rounded-xl transition-all duration-200 first:pt-0 last:pb-0">
                   <div className="flex items-center gap-3 min-w-0">
                     <span className="text-xs font-bold text-slate-400 w-4">#{idx + 1}</span>
                     <div className="min-w-0">
-                      <div className="font-bold text-slate-900 text-sm truncate">{book.title}</div>
+                      <div className="font-bold text-slate-900 text-sm truncate group-hover:text-blue-600 transition-colors duration-200">{book.title}</div>
                       <div className="text-slate-500 text-xs truncate mt-0.5">{book.author}</div>
                     </div>
                   </div>
@@ -107,8 +107,8 @@ export default async function AdminDashboardPage() {
         </div>
 
         {/* Recently Added Books */}
-        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
-          <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-6 flex items-center gap-2">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col">
+          <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4 flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-slate-500" />
             Recently Cataloged
           </h3>
@@ -119,9 +119,9 @@ export default async function AdminDashboardPage() {
           ) : (
             <div className="flex flex-col divide-y divide-slate-100">
               {stats.recentBooks.map((book) => (
-                <div key={book.id} className="py-3 flex items-center justify-between first:pt-0 last:pb-0">
+                <div key={book.id} className="group py-3 flex items-center justify-between px-2 -mx-2 hover:bg-slate-50/60 rounded-xl transition-all duration-200 first:pt-0 last:pb-0">
                   <div className="min-w-0">
-                    <div className="font-bold text-slate-900 text-sm truncate">{book.title}</div>
+                    <div className="font-bold text-slate-900 text-sm truncate group-hover:text-blue-600 transition-colors duration-200">{book.title}</div>
                     <div className="text-slate-500 text-xs truncate mt-0.5">{book.author}</div>
                   </div>
                   <span className="text-[10px] text-slate-400 font-semibold shrink-0 uppercase tracking-wider ml-4">
