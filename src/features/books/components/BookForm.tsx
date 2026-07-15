@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { Folder, ChevronDown } from "lucide-react"
+import { Folder, ChevronDown, Image as ImageIcon } from "lucide-react"
 
 interface CategoryItem {
   id: string
@@ -41,6 +41,7 @@ export default function BookForm({
   const [categoryId, setCategoryId] = useState("")
   const [coverFile, setCoverFile] = useState<File | null>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [previewUrl, setPreviewUrl] = useState<string>("")
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -63,19 +64,32 @@ export default function BookForm({
       setDescription(initialData.description)
       setCategoryId(initialData.categoryId)
       setCoverFile(null)
+      setPreviewUrl(initialData.coverImage)
     } else {
       setTitle("")
       setAuthor("")
       setDescription("")
       setCategoryId("")
       setCoverFile(null)
+      setPreviewUrl("")
     }
   }, [initialData, isOpen])
+
+  // Cleanup blob URLs to avoid memory leaks
+  useEffect(() => {
+    return () => {
+      if (previewUrl && previewUrl.startsWith("blob:")) {
+        URL.revokeObjectURL(previewUrl)
+      }
+    }
+  }, [previewUrl])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       setCoverFile(file)
+      const objectUrl = URL.createObjectURL(file)
+      setPreviewUrl(objectUrl)
     }
   }
 
@@ -212,27 +226,48 @@ export default function BookForm({
             </div>
 
             {/* File upload Field */}
-            <label className="text-sm font-semibold text-slate-700 self-center">
+            <label className="text-sm font-semibold text-slate-700 pt-1">
               Book Cover
             </label>
-            <div className="flex items-center gap-3">
-              <label
-                htmlFor="cover-upload"
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-md cursor-pointer text-xs font-semibold text-slate-700 transition shadow-sm whitespace-nowrap"
-              >
-                Choose File
-              </label>
-              <input
-                id="cover-upload"
-                type="file"
-                accept="image/png, image/jpeg, image/jpg, image/webp"
-                onChange={handleFileChange}
-                disabled={isPending}
-                className="hidden"
-              />
-              <span className="text-xs text-slate-500 truncate max-w-[240px]">
-                {coverFile ? coverFile.name : (initialData ? "pride.jpg" : "No file chosen")}
-              </span>
+            <div className="flex items-start gap-4">
+              {/* Cover Preview Thumbnail */}
+              <div className="w-14 h-20 rounded-lg overflow-hidden border border-slate-200 bg-slate-50 shrink-0 shadow-sm flex items-center justify-center">
+                {previewUrl ? (
+                  <img
+                    src={previewUrl}
+                    alt="Cover preview"
+                    className="w-full h-full object-cover animate-in fade-in duration-200"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center text-slate-350 gap-0.5 p-1 text-center select-none">
+                    <ImageIcon className="w-5 h-5 text-slate-300" />
+                    <span className="text-[8px] font-bold uppercase tracking-wider leading-none">No Preview</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Upload Action controls */}
+              <div className="flex flex-col gap-2 justify-center py-1">
+                <div className="flex items-center gap-3">
+                  <label
+                    htmlFor="cover-upload"
+                    className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg cursor-pointer text-xs font-bold text-slate-700 transition shadow-2xs whitespace-nowrap"
+                  >
+                    Choose File
+                  </label>
+                  <input
+                    id="cover-upload"
+                    type="file"
+                    accept="image/png, image/jpeg, image/jpg, image/webp"
+                    onChange={handleFileChange}
+                    disabled={isPending}
+                    className="hidden"
+                  />
+                </div>
+                <span className="text-[10px] text-slate-500 truncate max-w-[240px] font-medium" title={coverFile ? coverFile.name : (initialData ? "Using existing cover image" : "No file chosen")}>
+                  {coverFile ? coverFile.name : (initialData ? "Using existing cover image" : "No file chosen")}
+                </span>
+              </div>
             </div>
 
           </div>
