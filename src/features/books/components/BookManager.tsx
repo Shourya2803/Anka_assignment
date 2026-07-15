@@ -34,6 +34,7 @@ interface CategoryItem {
   name: string
   level: number
   isLeaf: boolean
+  path: string
 }
 
 interface BookManagerProps {

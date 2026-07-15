@@ -1,12 +1,14 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import { Folder, ChevronDown } from "lucide-react"
 
 interface CategoryItem {
   id: string
   name: string
   level: number
   isLeaf: boolean
+  path: string
 }
 
 interface BookFormProps {
@@ -38,6 +40,20 @@ export default function BookForm({
   const [description, setDescription] = useState("")
   const [categoryId, setCategoryId] = useState("")
   const [coverFile, setCoverFile] = useState<File | null>(null)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const el = document.getElementById("category-select-container")
+      if (el && !el.contains(event.target as Node)) {
+        setIsDropdownOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
 
   // Populate data when editing
   useEffect(() => {
@@ -139,28 +155,61 @@ export default function BookForm({
             />
 
             {/* Category Breadcrumbs Field */}
-            <label htmlFor="book-category" className="text-sm font-semibold text-slate-700">
+            <label className="text-sm font-semibold text-slate-700">
               Category<br/>
               <span className="text-xs font-normal text-slate-500">(Leaf Level Only)</span>
             </label>
-            <select
-              id="book-category"
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-              required
-              disabled={isPending}
-              className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all shadow-sm cursor-pointer font-medium"
-            >
-              <option value="">Select category...</option>
-              {categories.map((cat) => {
-                const indent = "\u00A0\u00A0".repeat(cat.level - 1)
-                return (
-                  <option key={cat.id} value={cat.id} disabled={!cat.isLeaf}>
-                    {indent + cat.name}
-                  </option>
-                )
-              })}
-            </select>
+            <div id="category-select-container" className="relative w-full">
+              <button
+                id="book-category"
+                type="button"
+                disabled={isPending}
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="w-full flex items-center justify-between bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all shadow-sm cursor-pointer font-medium text-left"
+              >
+                <span className="truncate">
+                  {categories.find((c) => c.id === categoryId)?.path || "Select category..."}
+                </span>
+                <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 ${isDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute z-50 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-lg max-h-60 overflow-y-auto p-1.5 flex flex-col gap-0.5 animate-in fade-in duration-200">
+                  {categories.map((cat) => {
+                    const indentStyles = {
+                      paddingLeft: `${(cat.level - 1) * 16 + 8}px`
+                    }
+                    const isSelected = categoryId === cat.id
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        disabled={!cat.isLeaf}
+                        onClick={() => {
+                          setCategoryId(cat.id)
+                          setIsDropdownOpen(false)
+                        }}
+                        style={indentStyles}
+                        className={`w-full flex items-center gap-2 py-2 pr-3 rounded-lg text-xs font-semibold transition-all text-left ${
+                          !cat.isLeaf
+                            ? "text-slate-400 cursor-not-allowed bg-slate-50/10 opacity-70"
+                            : isSelected
+                              ? "bg-[#0f60c4] text-white shadow-sm"
+                              : "text-slate-700 hover:text-blue-600 hover:bg-slate-50 cursor-pointer"
+                        }`}
+                      >
+                        {!cat.isLeaf ? (
+                          <Folder className="w-3.5 h-3.5 text-slate-400 shrink-0 fill-slate-100/30" />
+                        ) : (
+                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isSelected ? "bg-white" : "bg-blue-500/60"}`} />
+                        )}
+                        <span>{cat.name}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
 
             {/* File upload Field */}
             <label className="text-sm font-semibold text-slate-700 self-center">

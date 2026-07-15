@@ -48,7 +48,7 @@ export default async function AdminBooksPage({ searchParams }: PageProps) {
 
   // Build hierarchical categories list (Root -> Child -> Grandchild)
   const buildHierarchicalList = () => {
-    const list: { id: string; name: string; level: number; isLeaf: boolean }[] = []
+    const list: { id: string; name: string; level: number; isLeaf: boolean; path: string }[] = []
     
     const traverse = (parentId: string | null, level: number) => {
       const children = allCategories.filter((c) => c.parentId === parentId)
@@ -61,6 +61,7 @@ export default async function AdminBooksPage({ searchParams }: PageProps) {
           name: child.name,
           level: level,
           isLeaf: !hasChildren,
+          path: buildPath(child.id),
         })
         traverse(child.id, level + 1)
       }
