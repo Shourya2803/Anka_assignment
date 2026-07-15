@@ -24,8 +24,9 @@ The application leverages a modern, robust tech stack:
 
 The system has a static authorization layer to identify the main administrator.
 
-* **Admin Email**: `admin@book.com`
-* **Configuration**: Defined in the `.env` file under `ADMIN_EMAIL`. Any logged-in user matching this email is granted full dashboard, book editing, category manipulation, and audit log access.
+* **Admin Email**: `admin@book.com` (configured in the `.env` file under `ADMIN_EMAIL`).
+* **Clerk Test Account**: During development and testing using Clerk's testing environment, you should log in with the email **`admin+clerk_test@book.com`**.
+* **Normalization Logic**: The application's `isAdmin()` helper automatically normalizes emails by stripping the testing suffix (`+clerk_test`). Thus, logging in with `admin+clerk_test@book.com` resolves to `admin@book.com` in the role check, granting full dashboard, book editing, category manipulation, and audit log access.
 
 ---
 
