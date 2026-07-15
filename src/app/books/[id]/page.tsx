@@ -56,12 +56,12 @@ export default async function BookDetailPage({ params }: PageProps) {
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       <PublicNavbar />
 
-      <main className="flex-grow w-full mx-auto px-8 py-12 flex flex-col gap-6">
+      <main className="flex-grow w-full max-w-8xl mx-auto px-4 sm:px-6 md:px-8 py-10 flex flex-col gap-6">
         {/* Back navigation */}
         <div>
           <Link
             href="/books"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-slate-950 transition-colors uppercase tracking-wider"
           >
             <ChevronLeft className="w-4 h-4" />
             <span>Back to Catalog</span>
@@ -69,40 +69,47 @@ export default async function BookDetailPage({ params }: PageProps) {
         </div>
 
         {/* Detailed Book Content */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start mt-4">
-          
+        <div className="w-full bg-white border border-slate-200 rounded-3xl p-8 sm:p-10 md:p-12 shadow-sm flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+
           {/* Left Column: Cover and Favorite Button */}
-          <div className="md:col-span-4 lg:col-span-3 flex flex-col gap-6">
-            <div className="aspect-[2/3] w-full rounded-lg overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center shrink-0 shadow-sm">
+          <div className="w-full md:w-64 lg:w-72 flex-shrink-0 flex flex-col gap-6">
+            <div className="aspect-[2/3] w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 flex items-center justify-center shrink-0 shadow-md hover:shadow-lg transition-shadow duration-300">
               <img src={book.coverImage} alt={book.title} className="w-full h-full object-cover" />
             </div>
-            
+
             {/* Favorites Toggler */}
-            <div className="pt-1">
-              <FavoriteButton bookId={book.id} initialFavorited={favorited} variant="detail" />
-            </div>
+            <FavoriteButton bookId={book.id} initialFavorited={favorited} variant="detail" />
           </div>
 
           {/* Right Column: Metadata details */}
-          <div className="md:col-span-8 lg:col-span-9 flex flex-col gap-4">
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight text-slate-950">{book.title}</h1>
-              <p className="text-sm text-slate-600 mt-1 font-medium">
-                <span>{book.author}</span>
+          <div className="flex-grow flex flex-col gap-6">
+            <div className="flex flex-col gap-1.5">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-950 leading-tight">
+                {book.title}
+              </h1>
+              <p className="text-base sm:text-lg text-slate-500 font-medium">
+                {book.author}
               </p>
             </div>
 
-            {/* Category Breadcrumbs (Blue Text) */}
-            <div className="text-xs font-bold text-blue-600 hover:underline">
+            {/* Category Breadcrumbs (Blue tag badge) */}
+            <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-full hover:bg-blue-100/50 transition-colors w-fit">
               <Link href={`/books?categoryId=${book.categoryId}`}>
                 {categoryPath}
               </Link>
             </div>
 
+            <hr className="border-slate-100" />
+
             {/* Synopsis */}
-            <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap mt-2">
-              {book.description}
-            </p>
+            <div className="flex flex-col gap-2.5">
+              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                Synopsis
+              </h3>
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base whitespace-pre-wrap">
+                {book.description}
+              </p>
+            </div>
           </div>
         </div>
       </main>

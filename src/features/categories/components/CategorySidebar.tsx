@@ -101,7 +101,7 @@ export default function CategorySidebar({
             className={`flex-1 flex items-center gap-2 py-1.5 px-2.5 rounded-lg text-xs transition-all duration-200 truncate ${
               isActive
                 ? "bg-[#0f60c4] text-white font-bold shadow-sm"
-                : "text-slate-655 hover:text-slate-900 hover:bg-slate-100/80 font-medium"
+                : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 hover:translate-x-0.5 font-medium"
             }`}
           >
             {/* Indent level indicator for visual hierarchy */}

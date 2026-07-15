@@ -42,74 +42,78 @@ export default async function FavoritesPage() {
       <PublicNavbar />
 
       {/* Main Container */}
-      <main className="flex-grow w-full mx-auto px-8 py-12 flex flex-col gap-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">
-            My Favorite Books
-          </h1>
-        </div>
+      <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-12 flex flex-col gap-6">
 
-        {/* Favorites List Container */}
-        {favorites.length === 0 ? (
-          <div className="text-center py-20 border border-dashed border-slate-200 rounded-2xl bg-white shadow-sm">
-            <Heart className="w-12 h-12 text-slate-200 mx-auto mb-3" />
-            <p className="text-slate-600 font-semibold">Your favorites list is empty.</p>
-            <p className="text-slate-400 text-xs mt-1">
-              Explore the{" "}
-              <Link href="/books" className="text-blue-600 hover:underline font-bold">
-                books catalog
-              </Link>{" "}
-              and tap the heart icon on any book cover to save it here.
-            </p>
+        {/* Outer Frame Card */}
+        <div className="w-full bg-white border border-slate-200 rounded-3xl p-8 shadow-sm flex flex-col gap-6">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+              My Favorite Books
+            </h1>
           </div>
-        ) : (
-          <div className="border border-slate-200 rounded-2xl bg-white shadow-sm divide-y divide-slate-100 overflow-hidden">
-            {favorites.map((fav) => {
-              const { book } = fav
-              const categoryPath = buildPath(book.categoryId)
 
-              return (
-                <div
-                  key={book.id}
-                  className="flex items-center gap-6 p-5 hover:bg-slate-50/50 transition-colors"
-                >
-                  {/* Small Cover Art on Left */}
-                  <div className="w-16 h-24 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 flex-shrink-0 shadow-sm hover:shadow-md transition-shadow">
-                    <Link href={`/books/${book.id}`}>
-                      <img
-                        src={book.coverImage}
-                        alt={book.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </Link>
-                  </div>
+          {/* Favorites List Container */}
+          {favorites.length === 0 ? (
+            <div className="text-center py-20 border border-dashed border-slate-200 rounded-2xl bg-white shadow-sm">
+              <Heart className="w-12 h-12 text-slate-200 mx-auto mb-3" />
+              <p className="text-slate-600 font-semibold">Your favorites list is empty.</p>
+              <p className="text-slate-400 text-xs mt-1">
+                Explore the{" "}
+                <Link href="/books" className="text-blue-600 hover:underline font-bold">
+                  books catalog
+                </Link>{" "}
+                and tap the heart icon on any book cover to save it here.
+              </p>
+            </div>
+          ) : (
+            <div className="border border-slate-200 rounded-2xl bg-white divide-y divide-slate-100 overflow-hidden">
+              {favorites.map((fav) => {
+                const { book } = fav
+                const categoryPath = buildPath(book.categoryId)
 
-                  {/* Middle Column: Metadata */}
-                  <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-                    <Link href={`/books/${book.id}`}>
-                      <h2 className="text-base font-bold text-slate-800 hover:text-blue-600 transition-colors truncate">
-                        {book.title}
-                      </h2>
-                    </Link>
-                    <p className="text-sm text-slate-500 truncate">
-                      {book.author}
-                    </p>
-                    <div className="text-xs font-bold text-blue-650 hover:underline mt-1.5">
-                      <Link href={`/books?categoryId=${book.categoryId}`}>
-                        {categoryPath}
+                return (
+                  <div
+                    key={book.id}
+                    className="group flex items-center gap-6 p-6 hover:bg-slate-50/50 transition-colors"
+                  >
+                    {/* Small Cover Art on Left */}
+                    <div className="w-[72px] h-[108px] rounded-[6px] overflow-hidden border border-slate-200 bg-slate-100 flex-shrink-0 shadow-md hover:shadow-lg transition-all duration-300">
+                      <Link href={`/books/${book.id}`}>
+                        <img
+                          src={book.coverImage}
+                          alt={book.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                        />
                       </Link>
                     </div>
-                  </div>
 
-                  {/* Right Column: Remove Button */}
-                  <div className="flex-shrink-0">
-                    <FavoriteButton bookId={book.id} initialFavorited={true} variant="remove-btn" />
+                    {/* Middle Column: Metadata */}
+                    <div className="flex-1 min-w-0 flex flex-col gap-1">
+                      <Link href={`/books/${book.id}`}>
+                        <h2 className="text-base sm:text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors truncate">
+                          {book.title}
+                        </h2>
+                      </Link>
+                      <p className="text-sm text-slate-500 truncate">
+                        {book.author}
+                      </p>
+                      <div className="text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors mt-2">
+                        <Link href={`/books?categoryId=${book.categoryId}`}>
+                          {categoryPath}
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Right Column: Remove Button */}
+                    <div className="flex-shrink-0">
+                      <FavoriteButton bookId={book.id} initialFavorited={true} variant="remove-btn" />
+                    </div>
                   </div>
-                </div>
-              )
-            })}
-          </div>
-        )}
+                )
+              })}
+            </div>
+          )}
+        </div>
       </main>
     </div>
   )

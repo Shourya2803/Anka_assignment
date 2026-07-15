@@ -31,7 +31,7 @@ export default async function PublicNavbar() {
               {userIsAdmin && (
                 <Link
                   href="/admin/dashboard"
-                  className="text-sm font-bold text-indigo-650 hover:text-indigo-750 transition-colors"
+                  className="text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors"
                 >
                   Admin Panel
                 </Link>

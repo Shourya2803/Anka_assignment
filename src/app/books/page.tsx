@@ -88,12 +88,12 @@ export default async function BooksCatalogPage({ searchParams }: PageProps) {
                 return (
                   <div key={book.id} className="group relative flex flex-col gap-3">
                     {/* Cover Art Wrapper */}
-                    <div className="relative aspect-[2/3] w-full rounded-lg overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 bg-slate-100">
+                    <div className="relative aspect-[2/3] w-full rounded-lg overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 bg-slate-100">
                       <Link href={`/books/${book.id}`} className="block w-full h-full">
                         <img
                           src={book.coverImage}
                           alt={book.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                         />
                       </Link>
                       
@@ -106,7 +106,7 @@ export default async function BooksCatalogPage({ searchParams }: PageProps) {
                     {/* Book Text Content */}
                     <div className="flex flex-col pr-2">
                       <Link href={`/books/${book.id}`}>
-                        <h3 className="font-bold text-sm text-slate-800 line-clamp-1 group-hover:text-blue-650 transition-colors">
+                        <h3 className="font-bold text-sm text-slate-800 line-clamp-1 group-hover:text-blue-600 transition-colors">
                           {book.title}
                         </h3>
                       </Link>
@@ -129,8 +129,8 @@ export default async function BooksCatalogPage({ searchParams }: PageProps) {
                   href={`/books?page=${page - 1}${categoryId ? `&categoryId=${categoryId}` : ""}`}
                   className={`w-10 h-10 flex items-center justify-center text-xs font-semibold border-r border-slate-200 transition-colors ${
                     page === 1
-                      ? "text-slate-300 pointer-events-none bg-slate-55"
-                      : "text-slate-750 hover:bg-slate-50"
+                      ? "text-slate-300 pointer-events-none bg-slate-50"
+                      : "text-slate-700 hover:text-slate-900 hover:bg-slate-50"
                   }`}
                 >
                   «
@@ -146,8 +146,8 @@ export default async function BooksCatalogPage({ searchParams }: PageProps) {
                       href={`/books?page=${p}${categoryId ? `&categoryId=${categoryId}` : ""}`}
                       className={`w-10 h-10 flex items-center justify-center text-xs font-bold transition-colors ${
                         isActive
-                          ? "bg-[#0f60c4] text-white"
-                          : "text-slate-700 hover:bg-slate-50 bg-white"
+                          ? "bg-blue-600 text-white"
+                          : "text-slate-700 hover:text-slate-900 hover:bg-slate-50 bg-white"
                       } ${!isLast ? "border-r border-slate-200" : ""}`}
                     >
                       {p}
@@ -160,8 +160,8 @@ export default async function BooksCatalogPage({ searchParams }: PageProps) {
                   href={`/books?page=${page + 1}${categoryId ? `&categoryId=${categoryId}` : ""}`}
                   className={`w-10 h-10 flex items-center justify-center text-xs font-semibold border-l border-slate-200 transition-colors ${
                     page === totalPages
-                      ? "text-slate-300 pointer-events-none bg-slate-55"
-                      : "text-slate-750 hover:bg-slate-50"
+                      ? "text-slate-300 pointer-events-none bg-slate-50"
+                      : "text-slate-700 hover:text-slate-900 hover:bg-slate-50"
                   }`}
                 >
                   »
