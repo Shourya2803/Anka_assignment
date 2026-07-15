@@ -42,23 +42,20 @@ export async function getCurrentUser(): Promise<DBUser | null> {
     return null
   }
 
-  // Lazy sync user to database
-  try {
-    const fullName = `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`.trim()
-    dbUser = await prisma.user.create({
-      data: {
-        clerkId: clerkUser.id,
-        name: fullName || "User",
-        email: email,
-      },
-    })
-  } catch (error) {
-    console.error("Failed to lazy sync user to database:", error)
-    // Fallback lookup in case of parallel registration flows
-    dbUser = await prisma.user.findUnique({
-      where: { email: email },
-    })
-  }
+  // Lazy sync user to database using atomic upsert to prevent unique constraint race conditions
+  const fullName = `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`.trim()
+  dbUser = await prisma.user.upsert({
+    where: { clerkId: clerkUser.id },
+    update: {
+      name: fullName || "User",
+      email: email,
+    },
+    create: {
+      clerkId: clerkUser.id,
+      name: fullName || "User",
+      email: email,
+    },
+  })
 
   return dbUser
 }
