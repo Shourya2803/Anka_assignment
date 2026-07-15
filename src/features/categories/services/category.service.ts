@@ -88,6 +88,21 @@ export async function createCategory(
     level = parent.level + 1
   }
 
+  // Check if a category with the same name already exists at this level under the same parent
+  const existingCategory = await prisma.category.findFirst({
+    where: {
+      name: {
+        equals: name.trim(),
+        mode: "insensitive",
+      },
+      parentId: parentId || null,
+    },
+  })
+
+  if (existingCategory) {
+    throw new Error("A category with this name already exists at this level.")
+  }
+
   const category = await prisma.category.create({
     data: {
       name: name.trim(),
