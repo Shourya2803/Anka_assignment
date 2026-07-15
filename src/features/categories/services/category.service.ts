@@ -123,27 +123,47 @@ export async function createCategory(
 export async function deleteCategory(adminId: string, id: string) {
   const category = await prisma.category.findUnique({
     where: { id },
-    include: {
-      children: { select: { id: true } },
-      books: { select: { id: true } },
-    },
   })
 
   if (!category) {
     throw new Error("Category not found.")
   }
 
-  if (category.children.length > 0) {
-    throw new Error("Cannot delete a category that has subcategories. Please delete subcategories first.")
+  // Fetch all categories to build the hierarchy
+  const allCategories = await prisma.category.findMany()
+
+  // Helper to recursively get all children IDs
+  const getDescendantIds = (parentId: string): string[] => {
+    const ids: string[] = []
+    const children = allCategories.filter((c) => c.parentId === parentId)
+    for (const child of children) {
+      ids.push(child.id)
+      ids.push(...getDescendantIds(child.id))
+    }
+    return ids
   }
 
-  if (category.books.length > 0) {
-    throw new Error("Cannot delete a category containing books. Please delete or reassign books first.")
-  }
+  const categoryIdsToDelete = [id, ...getDescendantIds(id)]
 
-  await prisma.category.delete({
-    where: { id },
+  // 1. Delete all books associated with these categories
+  await prisma.book.deleteMany({
+    where: {
+      categoryId: {
+        in: categoryIdsToDelete,
+      },
+    },
   })
+
+  // 2. Sort categories to delete from deepest level up (level 3 -> 2 -> 1) to satisfy foreign keys
+  const categoriesToDel = allCategories.filter((c) => categoryIdsToDelete.includes(c.id))
+  categoriesToDel.sort((a, b) => b.level - a.level)
+
+  // 3. Delete categories in order
+  for (const cat of categoriesToDel) {
+    await prisma.category.delete({
+      where: { id: cat.id },
+    })
+  }
 
   // Log audit action
   await createAuditLog(adminId, "DELETE_CATEGORY", "CATEGORY", id)
