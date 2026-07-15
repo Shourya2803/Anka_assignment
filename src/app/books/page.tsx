@@ -57,7 +57,7 @@ interface BooksListContainerProps {
 }
 
 async function BooksListContainer({ page, categoryId, user, categories }: BooksListContainerProps) {
-  const { books, totalPages } = await getBooks({ page, limit: 12, search: "", categoryId })
+  const { books, totalPages } = await getBooks({ page, limit: 20, search: "", categoryId })
 
   // Get user favorites for display (batch query, N+1 optimized)
   const favoriteBookIds = new Set<string>()
@@ -109,7 +109,7 @@ async function BooksListContainer({ page, categoryId, user, categories }: BooksL
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     />
                   </Link>
-                  
+
                   {/* Floating Favorite Button */}
                   <div className="absolute top-2.5 right-2.5 z-10 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-200">
                     <FavoriteButton bookId={book.id} initialFavorited={isFavorited} />
@@ -140,11 +140,10 @@ async function BooksListContainer({ page, categoryId, user, categories }: BooksL
             {/* Previous Button */}
             <Link
               href={`/books?page=${page - 1}${categoryId ? `&categoryId=${categoryId}` : ""}`}
-              className={`w-10 h-10 flex items-center justify-center text-xs font-semibold border-r border-slate-200 transition-colors ${
-                page === 1
+              className={`w-10 h-10 flex items-center justify-center text-xs font-semibold border-r border-slate-200 transition-colors ${page === 1
                   ? "text-slate-300 pointer-events-none bg-slate-50"
                   : "text-slate-700 hover:text-slate-900 hover:bg-slate-50"
-              }`}
+                }`}
             >
               «
             </Link>
@@ -157,11 +156,10 @@ async function BooksListContainer({ page, categoryId, user, categories }: BooksL
                 <Link
                   key={p}
                   href={`/books?page=${p}${categoryId ? `&categoryId=${categoryId}` : ""}`}
-                  className={`w-10 h-10 flex items-center justify-center text-xs font-bold transition-colors ${
-                    isActive
+                  className={`w-10 h-10 flex items-center justify-center text-xs font-bold transition-colors ${isActive
                       ? "bg-blue-600 text-white"
                       : "text-slate-700 hover:text-slate-900 hover:bg-slate-50 bg-white"
-                  } ${!isLast ? "border-r border-slate-200" : ""}`}
+                    } ${!isLast ? "border-r border-slate-200" : ""}`}
                 >
                   {p}
                 </Link>
@@ -171,11 +169,10 @@ async function BooksListContainer({ page, categoryId, user, categories }: BooksL
             {/* Next Button */}
             <Link
               href={`/books?page=${page + 1}${categoryId ? `&categoryId=${categoryId}` : ""}`}
-              className={`w-10 h-10 flex items-center justify-center text-xs font-semibold border-l border-slate-200 transition-colors ${
-                page === totalPages
+              className={`w-10 h-10 flex items-center justify-center text-xs font-semibold border-l border-slate-200 transition-colors ${page === totalPages
                   ? "text-slate-300 pointer-events-none bg-slate-50"
                   : "text-slate-700 hover:text-slate-900 hover:bg-slate-50"
-              }`}
+                }`}
             >
               »
             </Link>
@@ -204,7 +201,7 @@ export default async function BooksCatalogPage({ searchParams }: PageProps) {
 
       {/* Main Layout */}
       <div className="flex-1 w-full mx-auto px-8 py-8 flex flex-col lg:flex-row gap-8">
-        
+
         {/* Sidebar: Categories Filter */}
         <aside className="lg:w-64 shrink-0 flex flex-col gap-6">
           <CategorySidebar categories={categories} selectedCategoryId={categoryId} />
