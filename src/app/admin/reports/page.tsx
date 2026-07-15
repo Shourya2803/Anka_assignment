@@ -1,7 +1,7 @@
 import React from "react"
 import prisma from "@/lib/prisma"
-import { ClipboardList, User, Calendar, ShieldAlert } from "lucide-react"
 import FavoritesReportChart from "@/features/reports/components/FavoritesReportChart"
+import AuditLogsTable from "@/features/reports/components/AuditLogsTable"
 
 export const metadata = {
   title: "BookStore Admin | Audit Reports",
@@ -94,77 +94,7 @@ export default async function AdminReportsPage() {
       />
 
       {/* Activity Table Card (Audit Logs) */}
-      <div className="p-4 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <ClipboardList className="w-5 h-5 text-slate-500" />
-            Audit Trail Logs (Recent 100 Actions)
-          </h2>
-          <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-50 text-slate-500 border border-slate-200">
-            Immutable log
-          </span>
-        </div>
-
-        {logs.length === 0 ? (
-          <div className="text-center py-16 border border-dashed border-slate-200 rounded-xl bg-slate-50">
-            <ShieldAlert className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-            <p className="text-slate-600 font-semibold">No audit logs found.</p>
-            <p className="text-slate-400 text-xs mt-1">Actions performed by admins will appear here automatically.</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-left text-sm">
-              <thead>
-                <tr className="border-b border-slate-200 text-xs text-slate-400 font-bold uppercase tracking-wider">
-                  <th className="pb-4 pl-2">Timestamp</th>
-                  <th className="pb-4">Administrator</th>
-                  <th className="pb-4">Action Event</th>
-                  <th className="pb-4">Target Entity</th>
-                  <th className="pb-4 pr-2 text-right">Entity ID</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {logs.map((log) => (
-                  <tr key={log.id} className="group hover:bg-slate-50/70 transition-colors duration-200">
-                    <td className="py-4 pl-2 text-xs text-slate-500 font-semibold whitespace-nowrap">
-                      <span className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                        {new Date(log.createdAt).toLocaleString()}
-                      </span>
-                    </td>
-                    <td className="py-4">
-                      <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0">
-                          <User className="w-3.5 h-3.5 text-slate-400" />
-                        </div>
-                        <div>
-                          <div className="font-bold text-slate-800 text-xs group-hover:text-blue-600 transition-colors duration-200">
-                            {log.admin.email.toLowerCase().replace(/\+clerk_test/g, "").trim() === (process.env.ADMIN_EMAIL || "").toLowerCase().trim()
-                              ? "Admin"
-                              : (log.admin.name || "User")}
-                          </div>
-                          <div className="text-[10px] text-slate-500 mt-0.5">{log.admin.email}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-4">
-                      <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border ${getActionStyles(log.action)}`}>
-                        {log.action}
-                      </span>
-                    </td>
-                    <td className="py-4 text-xs font-semibold text-slate-600">
-                      {log.entity}
-                    </td>
-                    <td className="py-4 pr-2 text-right text-[10px] font-mono text-slate-450 select-all">
-                      {log.entityId}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+      <AuditLogsTable logs={logs} adminEmail={process.env.ADMIN_EMAIL || ""} />
     </div>
   )
 }
